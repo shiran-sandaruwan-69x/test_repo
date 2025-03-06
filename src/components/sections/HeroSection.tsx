@@ -2,6 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Button } from "../ui/button";
 import { ArrowRight } from "lucide-react";
+import { useTheme } from "../ThemeProvider";
 
 interface HeroSectionProps {
   title?: string;
@@ -16,10 +17,15 @@ const HeroSection = ({
   ctaText = "Get Started",
   ctaLink = "#features",
 }: HeroSectionProps) => {
+  const { theme } = useTheme();
   return (
-    <section className="relative w-full h-[600px] flex items-center justify-center overflow-hidden bg-gray-950">
+    <section
+      className={`relative w-full h-[600px] flex items-center justify-center overflow-hidden ${theme === "dark" ? "bg-gray-950" : "bg-gray-50"}`}
+    >
       {/* Animated gradient background */}
-      <div className="absolute inset-0 bg-gray-950">
+      <div
+        className={`absolute inset-0 ${theme === "dark" ? "bg-gray-950" : "bg-gray-50"}`}
+      >
         <motion.div
           className="absolute inset-0 opacity-30"
           style={{

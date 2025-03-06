@@ -6,11 +6,15 @@ import FeaturesSection from "./sections/FeaturesSection";
 import CodeExampleSection from "./sections/CodeExampleSection";
 import Footer from "./layout/Footer";
 import PageTransition from "./animations/PageTransition";
+import { useTheme } from "./ThemeProvider";
 
 const Home = () => {
+  const { theme } = useTheme();
   return (
     <PageTransition>
-      <div className="min-h-screen bg-gray-950 text-white">
+      <div
+        className={`min-h-screen ${theme === "dark" ? "bg-gray-950 text-white" : "bg-white text-gray-900"}`}
+      >
         <Navbar />
         <main>
           {/* Add padding to account for fixed navbar */}

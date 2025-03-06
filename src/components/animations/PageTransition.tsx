@@ -1,6 +1,7 @@
 import React, { ReactNode } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "react-router-dom";
+import { useTheme } from "../ThemeProvider";
 
 interface PageTransitionProps {
   children?: ReactNode;
@@ -14,6 +15,7 @@ const PageTransition = ({
   duration = 0.5,
 }: PageTransitionProps) => {
   const location = useLocation();
+  const { theme } = useTheme();
 
   const variants = {
     fade: {
@@ -39,7 +41,9 @@ const PageTransition = ({
   };
 
   return (
-    <div className="w-full h-full bg-gray-950">
+    <div
+      className={`w-full h-full ${theme === "dark" ? "bg-gray-950" : "bg-white"}`}
+    >
       <AnimatePresence mode="wait">
         <motion.div
           key={location.pathname}
@@ -55,9 +59,13 @@ const PageTransition = ({
           className="w-full h-full"
         >
           {children || (
-            <div className="flex items-center justify-center h-full w-full bg-gray-950 text-white">
+            <div
+              className={`flex items-center justify-center h-full w-full ${theme === "dark" ? "bg-gray-950 text-white" : "bg-white text-gray-900"}`}
+            >
               <div className="text-center">
-                <div className="inline-block p-4 bg-purple-900/20 rounded-full mb-4">
+                <div
+                  className={`inline-block p-4 rounded-full mb-4 ${theme === "dark" ? "bg-purple-900/20" : "bg-purple-100"}`}
+                >
                   <motion.div
                     animate={{ rotate: 360 }}
                     transition={{

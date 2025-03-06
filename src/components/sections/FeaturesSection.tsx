@@ -2,6 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import FeatureCard from "../cards/FeatureCard";
 import { Code, Zap, Palette, Layout } from "lucide-react";
+import { useTheme } from "../ThemeProvider";
 
 interface FeaturesSectionProps {
   title?: string;
@@ -62,6 +63,7 @@ const FeaturesSection = ({
     },
   ],
 }: FeaturesSectionProps) => {
+  const { theme } = useTheme();
   // Animation variants for staggered children animations
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -86,7 +88,9 @@ const FeaturesSection = ({
   };
 
   return (
-    <section className="py-20 px-4 md:px-8 bg-gray-950 w-full">
+    <section
+      className={`py-20 px-4 md:px-8 w-full ${theme === "dark" ? "bg-gray-950" : "bg-white"}`}
+    >
       <div className="max-w-7xl mx-auto">
         {/* Section header with animations */}
         <motion.div

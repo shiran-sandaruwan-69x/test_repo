@@ -4,6 +4,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "../ui/tabs";
 import { Button } from "../ui/button";
 import { Copy, Check, Code, Zap, Palette } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useTheme } from "../ThemeProvider";
 
 interface CodeExampleSectionProps {
   title?: string;
@@ -75,6 +76,7 @@ module.exports = {
 }: CodeExampleSectionProps) => {
   const [activeTab, setActiveTab] = useState(examples[0]?.name || "");
   const [copied, setCopied] = useState<string | null>(null);
+  const { theme } = useTheme();
 
   const copyToClipboard = (code: string, name: string) => {
     navigator.clipboard.writeText(code);
@@ -83,7 +85,9 @@ module.exports = {
   };
 
   return (
-    <section className="w-full py-16 px-4 md:px-8 bg-gray-900">
+    <section
+      className={`w-full py-16 px-4 md:px-8 ${theme === "dark" ? "bg-gray-900" : "bg-gray-100"}`}
+    >
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -92,10 +96,16 @@ module.exports = {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2
+            className={`text-3xl md:text-4xl font-bold mb-4 ${theme === "dark" ? "text-white" : "text-gray-900"}`}
+          >
             {title}
           </h2>
-          <p className="text-gray-400 max-w-2xl mx-auto">{description}</p>
+          <p
+            className={`max-w-2xl mx-auto ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}
+          >
+            {description}
+          </p>
         </motion.div>
 
         <motion.div
@@ -103,19 +113,24 @@ module.exports = {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
           viewport={{ once: true }}
-          className="bg-gray-800 rounded-xl overflow-hidden border border-gray-700 shadow-xl"
+          className={`rounded-xl overflow-hidden shadow-xl ${theme === "dark" ? "bg-gray-800 border border-gray-700" : "bg-white border border-gray-200"}`}
         >
           <Tabs defaultValue={examples[0]?.name} className="w-full">
-            <div className="border-b border-gray-700 bg-gray-800/50 px-4 py-3">
-              <TabsList className="bg-gray-900/50 h-10">
+            <div
+              className={`border-b px-4 py-3 ${theme === "dark" ? "border-gray-700 bg-gray-800/50" : "border-gray-200 bg-gray-100/50"}`}
+            >
+              <TabsList
+                className={`h-10 ${theme === "dark" ? "bg-gray-900/50" : "bg-gray-200/50"}`}
+              >
                 {examples.map((example) => (
                   <TabsTrigger
                     key={example.name}
                     value={example.name}
                     onClick={() => setActiveTab(example.name)}
                     className={cn(
-                      "data-[state=active]:bg-purple-600/20 data-[state=active]:text-purple-300 data-[state=active]:shadow-none",
-                      "text-gray-400 hover:text-gray-300 transition-colors",
+                      theme === "dark"
+                        ? "data-[state=active]:bg-purple-600/20 data-[state=active]:text-purple-300 data-[state=active]:shadow-none text-gray-400 hover:text-gray-300 transition-colors"
+                        : "data-[state=active]:bg-purple-100 data-[state=active]:text-purple-700 data-[state=active]:shadow-none text-gray-600 hover:text-gray-800 transition-colors",
                     )}
                   >
                     <span className="flex items-center gap-2">
@@ -141,7 +156,7 @@ module.exports = {
                       onClick={() =>
                         copyToClipboard(example.code, example.name)
                       }
-                      className="h-8 px-2 text-gray-400 hover:text-white hover:bg-gray-700/50"
+                      className={`h-8 px-2 ${theme === "dark" ? "text-gray-400 hover:text-white hover:bg-gray-700/50" : "text-gray-600 hover:text-gray-900 hover:bg-gray-200/50"}`}
                     >
                       <AnimatePresence mode="wait" initial={false}>
                         {copied === example.name ? (
@@ -170,8 +185,12 @@ module.exports = {
                       </AnimatePresence>
                     </Button>
                   </div>
-                  <pre className="p-4 pt-12 pb-6 overflow-x-auto bg-gray-900 rounded-b-xl">
-                    <code className="text-sm text-gray-300 font-mono">
+                  <pre
+                    className={`p-4 pt-12 pb-6 overflow-x-auto rounded-b-xl ${theme === "dark" ? "bg-gray-900" : "bg-gray-50"}`}
+                  >
+                    <code
+                      className={`text-sm font-mono ${theme === "dark" ? "text-gray-300" : "text-gray-800"}`}
+                    >
                       {example.code.split("\n").map((line, i) => (
                         <div key={i} className="line">
                           {line}
