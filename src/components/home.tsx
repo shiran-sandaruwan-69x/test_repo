@@ -7,6 +7,7 @@ import CodeExampleSection from "./sections/CodeExampleSection";
 import Footer from "./layout/Footer";
 import PageTransition from "./animations/PageTransition";
 import { useTheme } from "./ThemeProvider";
+import FallbackRocket from "./3d/FallbackRocket";
 
 const Home = () => {
   const { theme } = useTheme();
@@ -50,6 +51,9 @@ const Home = () => {
         </main>
 
         <Footer />
+
+        {/* Animated Rocket */}
+        <FallbackRocket />
 
         {/* Background gradient orbs */}
         <div className="fixed top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-purple-900/20 filter blur-[120px] opacity-30 pointer-events-none" />
